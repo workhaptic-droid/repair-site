@@ -21,7 +21,7 @@ export default function Header() {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+      transition={{ duration: 0.6, ease: 'easeInOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? 'liquid-glass-modal'
@@ -33,7 +33,7 @@ export default function Header() {
           <motion.div 
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <div className="relative">
               <motion.div
@@ -64,13 +64,13 @@ export default function Header() {
             rel="noopener noreferrer"
             className="group relative flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-[#00D9FF] to-[#9D4EDD] text-white font-semibold text-xs sm:text-sm liquid-glass-button overflow-hidden"
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <span className="hidden sm:inline">TELEGRAM</span>
             <span className="sm:hidden">TG</span>
             <motion.div
               whileHover={{ x: 4 }}
-              transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </motion.div>

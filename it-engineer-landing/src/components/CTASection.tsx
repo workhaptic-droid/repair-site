@@ -9,10 +9,9 @@ const contentVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 export default function CTASection() {
   const ref = useRef(null)
@@ -40,7 +39,7 @@ export default function CTASection() {
             className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-[#00D9FF] via-[#9D4EDD] to-[#FF006E] text-white font-bold text-lg liquid-glass-button overflow-hidden"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <motion.div
               whileHover={{ rotate: 20 }}

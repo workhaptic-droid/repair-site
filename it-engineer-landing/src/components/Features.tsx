@@ -27,10 +27,9 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 export default function Features() {
   const ref = useRef(null)

@@ -28,10 +28,9 @@ const badgeVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 const titleVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -40,10 +39,9 @@ const titleVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 const descriptionVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -52,10 +50,9 @@ const descriptionVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 const buttonVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -64,10 +61,9 @@ const buttonVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 export default function Hero({ onLearnMore }: HeroProps) {
   const scrollToServices = () => {
@@ -136,7 +132,7 @@ export default function Hero({ onLearnMore }: HeroProps) {
             className="px-8 py-4 rounded-full bg-gradient-to-r from-[#00D9FF] to-[#9D4EDD] text-white font-semibold text-base liquid-glass-button w-full sm:w-auto overflow-hidden relative"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <span className="relative z-10">Начать сейчас</span>
           </motion.button>
@@ -145,7 +141,7 @@ export default function Hero({ onLearnMore }: HeroProps) {
             className="px-8 py-4 rounded-full liquid-glass text-white font-semibold text-base w-full sm:w-auto"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             Узнать больше
           </motion.button>

@@ -53,10 +53,9 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 export default function Services() {
   const ref = useRef(null)
@@ -69,7 +68,7 @@ export default function Services() {
           ref={ref}
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+          transition={{ duration: 0.6, ease: 'easeInOut' }}
           className="text-center mb-16"
         >
           <h2 className="font-outfit font-black text-3xl sm:text-5xl lg:text-6xl text-white mb-4">
@@ -94,7 +93,7 @@ export default function Services() {
                 variants={itemVariants}
                 whileHover={{ 
                   scale: 1.05,
-                  transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }
+                  transition: { duration: 0.4, ease: 'easeInOut' }
                 }}
                 className="group relative liquid-glass rounded-2xl p-6 sm:p-8 overflow-hidden"
                 style={{ borderColor: `${service.color}30` }}

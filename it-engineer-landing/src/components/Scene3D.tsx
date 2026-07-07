@@ -86,7 +86,10 @@ function MorphingSphere() {
       const originalGeo = meshRef.current.geometry as THREE.SphereGeometry
       geoRef.current = originalGeo.clone()
       meshRef.current.geometry = geoRef.current
-      originalPositions.current = new Float32Array(geoRef.current.attributes.position.array as Float32Array)
+      const posAttr = geoRef.current.attributes.position
+      if (posAttr && posAttr.array) {
+        originalPositions.current = new Float32Array(posAttr.array as Float32Array)
+      }
     }
 
     return () => {
@@ -101,15 +104,20 @@ function MorphingSphere() {
     if (!meshRef.current || !geoRef.current || !originalPositions.current) return
 
     const pos = geoRef.current.attributes.position
+    if (!pos || !pos.array) return
+    
     const time = state.clock.elapsedTime
     const arr = pos.array as Float32Array
     const orig = originalPositions.current
 
     for (let i = 0; i < arr.length; i += 3) {
-      const noise = Math.sin(orig[i] * 2 + time) * Math.cos(orig[i + 1] * 2 + time * 0.5) * 0.15
-      arr[i] = orig[i] + orig[i] * noise
-      arr[i + 1] = orig[i + 1] + orig[i + 1] * noise
-      arr[i + 2] = orig[i + 2] + orig[i + 2] * noise
+      const origI = orig[i] || 0
+      const origI1 = orig[i + 1] || 0
+      const origI2 = orig[i + 2] || 0
+      const noise = Math.sin(origI * 2 + time) * Math.cos(origI1 * 2 + time * 0.5) * 0.15
+      arr[i] = origI + origI * noise
+      arr[i + 1] = origI1 + origI1 * noise
+      arr[i + 2] = origI2 + origI2 * noise
     }
 
     pos.needsUpdate = true
@@ -172,10 +180,11 @@ function Scene() {
 }
 
 export default function Scene3D() {
-  const handleError = (error: Error) => {
-    console.error('WebGL/Three.js error:', error)
+  const handleError = () => {
+    // Handle WebGL errors gracefully
+    console.error('WebGL/Three.js error occurred')
     // Dispatch custom event for App-level error boundary
-    window.dispatchEvent(new CustomEvent('webgl-error', { detail: error }))
+    window.dispatchEvent(new CustomEvent('webgl-error'))
   }
 
   return (

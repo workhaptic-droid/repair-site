@@ -22,17 +22,15 @@ const overlayVariants = {
     opacity: 1,
     transition: {
       duration: 0.3,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
   exit: {
     opacity: 0,
     transition: {
       duration: 0.2,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 const contentVariants = {
   hidden: { opacity: 0, scale: 0.95, y: 20 },
@@ -42,7 +40,6 @@ const contentVariants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
   exit: {
@@ -51,10 +48,9 @@ const contentVariants = {
     y: 20,
     transition: {
       duration: 0.3,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 const lineVariants = {
   hidden: { opacity: 0, x: -20 },
@@ -63,10 +59,9 @@ const lineVariants = {
     x: 0,
     transition: {
       duration: 0.4,
-      ease: [0.34, 1.56, 0.64, 1],
     },
   },
-}
+} as const
 
 export default function TerminalModal({ open, onClose }: TerminalModalProps) {
   const [visibleLines, setVisibleLines] = useState(0)

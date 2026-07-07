@@ -20,7 +20,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-[#00D9FF] hover:text-white transition-colors text-sm"
             whileHover={{ gap: '12px', scale: 1.05 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <motion.div
               whileHover={{ rotate: 20 }}
