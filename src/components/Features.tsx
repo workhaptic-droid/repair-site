@@ -9,6 +9,29 @@ const features = [
   'Инновационные решения',
 ]
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.34, 1.56, 0.64, 1],
+    },
+  },
+}
+
 export default function Features() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
@@ -18,20 +41,24 @@ export default function Features() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6 }}
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
           className="flex flex-wrap justify-center gap-4 sm:gap-8"
         >
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <motion.div
               key={feature}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex items-center gap-2 px-4 py-2 rounded-full glass"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-2 px-4 py-2 rounded-full liquid-glass"
             >
-              <Check className="w-4 h-4 text-[#00D9FF]" />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                <Check className="w-4 h-4 text-[#00D9FF]" />
+              </motion.div>
               <span className="text-white text-sm sm:text-base font-medium">{feature}</span>
             </motion.div>
           ))}
