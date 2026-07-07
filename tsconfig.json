@@ -20,6 +20,5 @@
     "noUncheckedIndexedAccess": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "files": []
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

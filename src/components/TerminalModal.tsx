@@ -16,53 +16,6 @@ const terminalLines = [
   '> Услуги: Ремонт, Прошивка, Серверы, Энергосистемы',
 ]
 
-const overlayVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.3,
-    },
-  },
-  exit: {
-    opacity: 0,
-    transition: {
-      duration: 0.2,
-    },
-  },
-} as const
-
-const contentVariants = {
-  hidden: { opacity: 0, scale: 0.95, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.95,
-    y: 20,
-    transition: {
-      duration: 0.3,
-    },
-  },
-} as const
-
-const lineVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.4,
-    },
-  },
-} as const
-
 export default function TerminalModal({ open, onClose }: TerminalModalProps) {
   const [visibleLines, setVisibleLines] = useState(0)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -115,53 +68,39 @@ export default function TerminalModal({ open, onClose }: TerminalModalProps) {
           <Dialog.Portal>
             <Dialog.Overlay asChild>
               <motion.div
-                variants={overlayVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
                 className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
                 onClick={onClose}
               />
             </Dialog.Overlay>
             <Dialog.Content asChild>
               <motion.div
-                variants={contentVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.3 }}
                 className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-2rem)] max-w-lg"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="liquid-glass-modal rounded-xl overflow-hidden shadow-2xl">
-                  <div className="flex items-center justify-between px-4 py-3 bg-[#0a0a0a]/80 border-b border-[#00D9FF]/20">
+                <div className="bg-black border border-[#00D9FF]/30 rounded-xl overflow-hidden shadow-2xl glow-cyan">
+                  <div className="flex items-center justify-between px-4 py-3 bg-[#0a0a0a] border-b border-[#00D9FF]/20">
                     <div className="flex items-center gap-2">
-                      <motion.div 
-                        className="w-3 h-3 rounded-full bg-red-500"
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <motion.div 
-                        className="w-3 h-3 rounded-full bg-yellow-500"
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}
-                      />
-                      <motion.div 
-                        className="w-3 h-3 rounded-full bg-green-500"
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: 0.4 }}
-                      />
+                      <div className="w-3 h-3 rounded-full bg-red-500" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
                     </div>
                     <span className="text-[#00D9FF]/60 text-xs font-mono">terminal.exe</span>
                     <Dialog.Close asChild>
-                      <motion.button
+                      <button
                         onClick={onClose}
                         className="text-gray-500 hover:text-white transition-colors"
                         aria-label="Close terminal"
-                        whileHover={{ scale: 1.1, rotate: 90 }}
-                        transition={{ duration: 0.2 }}
                       >
                         <X className="w-5 h-5" />
-                      </motion.button>
+                      </button>
                     </Dialog.Close>
                   </div>
 
@@ -169,20 +108,16 @@ export default function TerminalModal({ open, onClose }: TerminalModalProps) {
                     {terminalLines.map((line, index) => (
                       <motion.div
                         key={index}
-                        variants={lineVariants}
-                        initial="hidden"
-                        animate={index < visibleLines ? "visible" : "hidden"}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={index < visibleLines ? { opacity: 1, x: 0 } : { opacity: 0 }}
+                        transition={{ duration: 0.3 }}
                         className="text-[#00D9FF] mb-2"
                       >
                         {line}
                       </motion.div>
                     ))}
                     {visibleLines >= terminalLines.length && (
-                      <motion.div 
-                        className="text-[#00D9FF] terminal-cursor mt-4"
-                        animate={{ opacity: [1, 0.3, 1] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      />
+                      <div className="text-[#00D9FF] terminal-cursor mt-4" />
                     )}
                   </div>
                 </div>
