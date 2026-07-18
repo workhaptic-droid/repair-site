@@ -86,7 +86,6 @@ function MorphingSphere() {
       geoRef.current = originalGeo.clone()
       meshRef.current.geometry = geoRef.current
       
-      // Жесткая проверка на наличие атрибута позиции
       if (geoRef.current.attributes.position) {
         originalPositions.current = new Float32Array(geoRef.current.attributes.position.array as Float32Array)
       }
@@ -101,31 +100,33 @@ function MorphingSphere() {
   }, [])
 
   useFrame((state) => {
-    // Тотальный охранный блок. Если хоть чего-то нет - кадр не рендерим.
-    // Это полностью снимает все ошибки TS2532 и TS18048.
-    if (
-      !meshRef.current || 
-      !geoRef.current || 
-      !originalPositions.current || 
-      !geoRef.current.attributes.position
-    ) {
-      return
-    }
+    // Безопасно распаковываем ссылки
+    const mesh = meshRef.current;
+    const geo = geoRef.current;
+    const orig = originalPositions.current;
 
-    const pos = geoRef.current.attributes.position
+    if (!mesh || !geo || !orig || !geo.attributes.position) return;
+
+    const pos = geo.attributes.position
     const time = state.clock.elapsedTime
     const arr = pos.array as Float32Array
-    const orig = originalPositions.current
 
     for (let i = 0; i < arr.length; i += 3) {
-      const noise = Math.sin(orig[i] * 2 + time) * Math.cos(orig[i + 1] * 2 + time * 0.5) * 0.15
-      arr[i] = orig[i] + orig[i] * noise
-      arr[i + 1] = orig[i + 1] + orig[i + 1] * noise
-      arr[i + 2] = orig[i + 2] + orig[i + 2] * noise
+      // Изолируем обращение к массиву и жестко утверждаем (!), что данные есть
+      const x = orig[i]!;
+      const y = orig[i + 1]!;
+      const z = orig[i + 2]!;
+
+      // Чистая математика без ошибок типизации
+      const noise = Math.sin(x * 2 + time) * Math.cos(y * 2 + time * 0.5) * 0.15
+
+      arr[i] = x + x * noise
+      arr[i + 1] = y + y * noise
+      arr[i + 2] = z + z * noise
     }
 
     pos.needsUpdate = true
-    meshRef.current.rotation.y = time * 0.1
+    mesh.rotation.y = time * 0.1
   })
 
   return (
