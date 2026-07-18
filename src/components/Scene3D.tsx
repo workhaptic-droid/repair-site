@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect } from 'react'
+import { useRef, useMemo, useEffect, SyntheticEvent } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 import * as THREE from 'three'
@@ -100,10 +100,11 @@ function MorphingSphere() {
   useFrame((state) => {
     if (!meshRef.current || !geoRef.current || !originalPositions.current) return
 
-    const pos = geoRef.current.attributes.position
+    // Explicitly assert that position and originalPositions exist to satisfy strict TS
+    const pos = geoRef.current.attributes.position!
     const time = state.clock.elapsedTime
     const arr = pos.array as Float32Array
-    const orig = originalPositions.current
+    const orig = originalPositions.current!
 
     for (let i = 0; i < arr.length; i += 3) {
       const noise = Math.sin(orig[i] * 2 + time) * Math.cos(orig[i + 1] * 2 + time * 0.5) * 0.15
@@ -172,10 +173,10 @@ function Scene() {
 }
 
 export default function Scene3D() {
-  const handleError = (error: Error) => {
-    console.error('WebGL/Three.js error:', error)
-    // Dispatch custom event for App-level error boundary
-    window.dispatchEvent(new CustomEvent('webgl-error', { detail: error }))
+  // Fix: DOM events in React use SyntheticEvent, not Error objects
+  const handleError = (event: SyntheticEvent<HTMLDivElement, Event>) => {
+    console.error('WebGL/Three.js error:', event)
+    window.dispatchEvent(new CustomEvent('webgl-error', { detail: event }))
   }
 
   return (
